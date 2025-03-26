@@ -105,3 +105,15 @@ This is the place for you to write reflections:
    Postman helps me test each endpoint quickly without writing frontend code. I can easily send JSON requests, check responses, and debug errors. The “Collections” feature is useful for organizing endpoints, and “Environment Variables” help switch between setups. For group projects, using Postman ensures everyone is testing the same API consistently.
 
 #### Reflection Publisher-3
+
+1. Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?
+
+    In this tutorial, we use the Push model. The publisher directly pushes notifications to each subscriber by sending an HTTP POST request whenever a relevant event occurs such as product creation, promotion, or deletion. The subscribers don’t actively request information from the publisher, which aligns with the behavior of the Push model.
+
+2. What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)
+   
+    If we use the Pull model, each subscriber would be responsible for regularly checking or requesting data from the publisher. This gives more control to the subscriber and reduces unnecessary data transfer if nothing changes. Using Pull would introduce delays and increase network requests since the subscriber doesn't need to make decisions, it only needs to be notified. The push model is more efficient for real-time updates and fits the notification system better.
+
+3. Explain what will happen to the program if we decide to not use multi-threading in the notification process.
+
+   Without multi-threading, the publisher would notify subscribers sequentially and block the thread for each HTTP request. This could cause serious delays, especially if a subscriber is unresponsive or slow to respond. It would also reduce the scalability of the application, since Rocket wouldn’t be able to handle other incoming HTTP requests while waiting for all subscriber notifications to finish. Using multi-threading with `tokio::spawn` or `std::thread::spawn` ensures that notifications are sent concurrently, improving performance and responsiveness.
