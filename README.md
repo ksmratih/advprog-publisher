@@ -78,6 +78,18 @@ This is the place for you to write reflections:
 
 #### Reflection Publisher-1
 
+1. In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or trait in Rust) in this BambangShop case, or a single Model struct is enough?
+
+In this case, a single `Subscriber` struct is enough. Although the Observer pattern often uses interfaces or traits, we don't need polymorphism here because all subscribers are treated the same. They just receive notifications through HTTP POST. There's no behavior to override, therefore using a trait would be unnecessary.
+
+2. id in Program and url in Subscriber is intended to be unique. Explain based on your understanding, is using Vec (list) sufficient or using DashMap (map/dictionary) like we currently use is necessary for this case?
+
+Using DashMap is more appropriate because it allows fast lookups and ensures uniqueness using keys. A `Vec` would require manually checking for duplicates, which makes it inefficient. DashMap also helps organize subscribers by product type and supports concurrent access, which is also important for web applications.
+
+3. When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (SUBSCRIBERS) static variable, we used the DashMap external library for thread safe HashMap. Explain based on your understanding of design patterns, do we still need DashMap or we can implement Singleton pattern instead?
+
+Singleton ensures a single instance of a structure exists globally. DashMap on the other hand, ensures that this single instance is also thread-safe and lock-free. Therefore, even though a singleton pattern creates a global subscriber database, we still need DashMap inside that singleton to make sure data access is safe across multiple threads.
+
 #### Reflection Publisher-2
 
 #### Reflection Publisher-3
